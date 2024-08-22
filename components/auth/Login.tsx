@@ -17,15 +17,37 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
 
+const validations = {
+  password: {
+    message: "Password is invalid",
+    min: 'Password must contain at least 6 characters',
+    max: 'Password max characters are less than 50',
+    regex: {
+      value: ".*[A-Z].*",
+      message: "Password must contain atleast one uppercase character."
+    }
+  },
+}
 
 const formSchema = z.object({
-  username: z.string().min(3).max(50),
-  password: z.string().min(6).max(50).regex(new RegExp('^(?=.*[A-Z])(?=.*\d).+$')) // One uppercase, One digit
-})
+  username: 
+    z.string()
+    .min(3)
+    .max(50),
+  password: 
+    z.string({ message: validations.password.message })
+    .min(6, { message: validations.password.min })
+    .max(50, { message: validations.password.max })
+    .regex(new RegExp(validations.password.regex.value), { message: validations.password.regex.message })
+});
 
 const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -71,6 +93,7 @@ const Login = () => {
                   <Input 
                     className="text-BLACK_LABEL_TEXT placeholder:text-BLACK_INFO_TEXT border-neutral-300 focus-visible:ring-neutral-300" 
                     placeholder="Enter your password.."
+                    type="password"
                     {...field}
                   />
                 </FormControl>
