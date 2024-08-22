@@ -23,7 +23,7 @@ const Hero = () => {
       {/* Right side section */}
       <section className="order-1 lg:order-2" data-aos="fade-down">
         <Image 
-          src={'/Images/Hero2.png'}
+          src={'/images/Hero.png'}
           alt={'Hero'}
           width={'500'}
           height={'500'}
