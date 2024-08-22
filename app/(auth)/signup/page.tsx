@@ -1,6 +1,9 @@
+import Signup from "@/components/auth/Signup"
+
 const page = () => {
   return (
-    <main className="px-5 lg:px-0">
+    <main className="flex justify-center items-center min-h-[calc(100vh-8rem)] px-5 lg:px-0">
+      <Signup />
     </main>
   )
 }
