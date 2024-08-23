@@ -3,8 +3,8 @@ import Login from "@/components/auth/Login"
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'OakTree Innovations | Login',
-  description: 'This is the login page.',
+  title: 'OakTree Innovations | Log in',
+  description: 'This is the log in page.',
 };
 
 const page = () => {

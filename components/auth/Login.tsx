@@ -59,7 +59,7 @@ const Login = () => {
       {/* Header */}
       <div className="flex justify-center items-center">
         <h1 className="font-extrabold tracking-tight text-4xl text-center text-BLACK_LABEL_TEXT">
-          Login
+          Log in
         </h1>
       </div>
 
