@@ -1,7 +1,11 @@
 "use client"
 
+import { login } from "@/actions/auth"
+
+import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import useAuthStore from "@/stores/AuthStore"
 
 import {
   Form,
@@ -32,16 +36,18 @@ const validations = {
 const formSchema = z.object({
   username: 
     z.string()
-    .min(3)
-    .max(50),
+    .nonempty({ message: 'Username is required' })
+    .trim(),
   password: 
-    z.string({ message: validations.password.message })
-    .min(6, { message: validations.password.min })
-    .max(50, { message: validations.password.max })
-    .regex(new RegExp(validations.password.regex.value), { message: validations.password.regex.message })
+    z.string()
+    .nonempty({ message: 'Password is required' })
+    .trim()
 });
 
 const Login = () => {
+  const { toast } = useToast()
+  const setLogin = useAuthStore(state => state.login)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,8 +56,21 @@ const Login = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(form.getValues())
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const formValues = form.getValues()
+
+    const data = await login(formValues)
+    if (data === undefined || data === null) {
+      toast({
+        variant: "destructive",
+        title: "Invalid username or password, please try again.",
+      })
+
+      return
+    }
+
+    window.location.href = "/items"
+    setLogin()
   }
 
   return (

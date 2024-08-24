@@ -1,18 +1,13 @@
-import Signup from "@/components/auth/Signup"
+"use client"
 
-import { Metadata } from 'next';
+import Signup from "@/components/auth/Signup";
 
-export const metadata: Metadata = {
-  title: 'OakTree Innovations | Sign up',
-  description: 'This is the sign up page.',
-};
-
-const page = () => {
+const Page = () => {
   return (
     <main className="flex justify-center items-center min-h-[calc(100vh-8rem)] px-5 lg:px-0">
       <Signup />
     </main>
-  )
-}
+  );
+};
 
-export default page
+export default Page
