@@ -4,26 +4,28 @@ import { redirect } from 'next/navigation'
 
 import { tokenVerify } from './actions/auth'
 
-const publicRoutes = ['/login', '/signup', '/']
-
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('access_token')
 
+  const publicRoutes = ['/login', '/signup']
+
   if (accessToken) {
-    const response = await tokenVerify(accessToken.value)
+    const verified = await tokenVerify(accessToken.value)
 
-    if (response) {
-
+    if (verified) {
       // Check if not going to public routes
-      if (!publicRoutes.includes(request.nextUrl.pathname)) {
+      if (!publicRoutes.includes(request.url)) {
         return NextResponse.next()
       }
-      
-      return NextResponse.redirect(new URL('/items', request.url))
+      else {
+        return NextResponse.redirect(new URL('/items', request.url))
+      }
     }
   }
+  
+  return NextResponse.redirect(new URL('/login', request.url))
 }
 
 export const config = {
-  matcher: ['/items:pathname*', ...publicRoutes],
+  matcher: ['/items:pathname*'],
 }
