@@ -2,7 +2,8 @@ export const LOCAL_BACKEND = "http://localhost:8000"
 export const PROD_BACKEND = ""
 
 export const API_ENDPOINTS = {
-  auth: '/auth'
+  auth: '/auth',
+  items: '/items'
 }
 
 export const fetchAPI = async (url: string, options?: any) => {
