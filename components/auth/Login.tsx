@@ -75,7 +75,9 @@ const Login = () => {
       return
     }
 
-    window.location.href = "/items"
+    console.log(data)
+
+    //window.location.href = "/items"
     setLogin()
   }
 
