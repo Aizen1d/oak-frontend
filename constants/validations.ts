@@ -18,3 +18,21 @@ export const signupValidations = {
     path: ["confirm"],
   }
 }
+
+export const createItemValidations = {
+  name: {
+    message: "Name is invalid",
+    min: 'Name must contain at least 3 characters',
+    max: 'Name max characters are less than 20',
+  },
+  description: {
+    message: "Description is invalid",
+    min: 'Description must contain at least 3 characters',
+    max: 'Description max characters are less than 200',
+  },
+  price: {
+    message: "Price is invalid",
+    min: 'Price must be greater than 0',
+    max: 'Price must be less than 100000',
+  }
+}
