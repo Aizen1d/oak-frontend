@@ -1,8 +1,10 @@
-import React from 'react'
+import CreateItem from "@/components/item/CreateItem"
 
 const page = () => {
   return (
-    <div>page</div>
+    <main className="flex justify-center items-center min-h-[calc(100vh-8rem)] px-5 lg:px-0">
+      <CreateItem />
+    </main>
   )
 }
 
