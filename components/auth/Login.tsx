@@ -1,7 +1,7 @@
 "use client"
 
 import { login } from "@/actions/auth"
-import { useEffect } from "react"
+import { useState } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -34,6 +34,8 @@ const formSchema = z.object({
 
 const Login = () => {
   const { toast } = useToast()
+  const [submitting, setSubmitting] = useState<boolean>(false)
+
   if (localStorage.getItem("notification")) {
     const notification = localStorage.getItem("notification") as string
     toast({
@@ -55,6 +57,9 @@ const Login = () => {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (submitting) return
+    setSubmitting(true)
+
     const formValues = form.getValues()
 
     const data = await login(formValues)
@@ -64,6 +69,7 @@ const Login = () => {
         title: "Invalid username or password, please try again.",
       })
 
+      setSubmitting(false)
       return
     }
 
@@ -119,16 +125,18 @@ const Login = () => {
             )}
           />
           <div className="flex justify-center items-center">
-            <Button className="w-[25%] bg-OAK_COLOR hover:bg-OAK_COLOR_HOVER" type="submit">
-              Log in
+            <Button className="w-[25%] bg-OAK_COLOR hover:bg-OAK_COLOR_HOVER disabled:bg-gray-500" type="submit" disabled={submitting}>
+              {submitting ? "Logging in..." : "Log in"}
             </Button>  
           </div>
         </form>
       </Form>
-
-      <p className="mx-auto mt-3 text-center text-sm text-BLACK_INFO_TEXT">Don&apos;t have an account?
-        <Link className="text-OAK_COLOR font-semibold" href="/signup"> Sign up</Link>
-      </p>
+        
+      {!submitting && (
+        <p className="mx-auto mt-3 text-center text-sm text-BLACK_INFO_TEXT">Don&apos;t have an account?
+          <Link className="text-OAK_COLOR font-semibold" href="/signup"> Sign up</Link>
+        </p>
+      )}
     </div>
   )
 }

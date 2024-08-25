@@ -1,7 +1,7 @@
 
 # Oak Frontend
 
-This is the frontend for oak assessment test. The approach was to implement reusability as much as possible to promote modularity and reusability, for example, the file structure is implemented by separating folders (grouped routes, actions, components, stores, lib, types).
+This is the frontend for oak assessment test. The approach was to implement reusability as much as possible to promote modularity and reusability, for example, the file structure is implemented by separating folders (grouped routes, actions, components, stores, lib, types, colors, validations).
 
 
 

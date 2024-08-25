@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation'
 import { Skeleton } from "@/components/ui/skeleton"
 import { useRouter } from "next/navigation"
 
-const page = () => {
+const Page = () => {
   const { id } = useParams()
   const router = useRouter()
 
@@ -45,4 +45,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
