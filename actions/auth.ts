@@ -24,6 +24,28 @@ export async function login(props: LoginProps) {
   }
 }
 
+export async function signup(props: LoginProps) {
+  try {
+    const response = await fetchAPI(`${API_ENDPOINTS.auth}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username: props.username,
+        password: props.password
+      }),
+    })
+
+    const data = await response.json()
+
+    return data
+  } catch(error) {
+    console.log(error)
+  }
+}
+
 export async function logout() {
   try {
     const response = await fetchAPI(`${API_ENDPOINTS.auth}/logout`, {
