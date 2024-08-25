@@ -1,5 +1,5 @@
 export const LOCAL_BACKEND = "http://localhost:8000"
-export const PROD_BACKEND = ""
+export const PROD_BACKEND = "https://oakbackend-g23mu.ondigitalocean.app"
 
 export const API_ENDPOINTS = {
   auth: '/auth',
