@@ -1,7 +1,7 @@
 "use client"
 
 import { login } from "@/actions/auth"
-
+import { useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,18 +21,6 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
 
-const validations = {
-  password: {
-    message: "Password is invalid",
-    min: 'Password must contain at least 6 characters',
-    max: 'Password max characters are less than 50',
-    regex: {
-      value: ".*[A-Z].*",
-      message: "Password must contain atleast one uppercase character."
-    }
-  },
-}
-
 const formSchema = z.object({
   username: 
     z.string()
@@ -46,6 +34,16 @@ const formSchema = z.object({
 
 const Login = () => {
   const { toast } = useToast()
+  if (localStorage.getItem("notification")) {
+    const notification = localStorage.getItem("notification") as string
+    toast({
+      title: notification,
+      variant: "success",
+      duration: 3000
+    })
+    localStorage.removeItem("notification")
+  }
+  
   const setLogin = useAuthStore(state => state.login)
 
   const form = useForm<z.infer<typeof formSchema>>({

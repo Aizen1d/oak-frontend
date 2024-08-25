@@ -1,8 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
+import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 import {
   Form,
   FormControl,
@@ -17,6 +19,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
 import { signupValidations as validations } from "@/constants/validations"
+import { signup } from "@/actions/auth"
 
 const formSchema = z.object({
   username: 
@@ -37,6 +40,10 @@ const formSchema = z.object({
 })
 
 const Signup = () => {
+  const { toast } = useToast()
+  const router = useRouter()
+  const [submitting, setSubmitting] = useState<boolean>(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,8 +53,37 @@ const Signup = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(form.getValues())
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (submitting) return
+    setSubmitting(true)
+
+    const { username, password } = form.getValues()
+
+    const data = await signup({ username, password })
+
+    if (data === undefined || data === null) {
+      toast({
+        variant: "destructive",
+        title: "Invalid username or password, please try again.",
+      })
+
+      setSubmitting(false)
+      return
+    }
+
+    if (data?.reason) {
+      toast({
+        variant: "destructive",
+        title: data.message
+      })
+
+      setSubmitting(false)
+      return
+    }
+
+    // add notif to local storage
+    localStorage.setItem('notification', 'Account created successfully')
+    router.push('login')
   }
 
   return (
@@ -116,16 +152,18 @@ const Signup = () => {
             )}
           />
           <div className="flex justify-center items-center">
-            <Button className="w-[25%] bg-OAK_COLOR hover:bg-OAK_COLOR_HOVER" type="submit">
-              Sign up
+            <Button className="w-[25%] bg-OAK_COLOR hover:bg-OAK_COLOR_HOVER disabled:bg-gray-500" type="submit" disabled={submitting}>
+              {submitting ? 'Signing up...' : 'Sign up'}
             </Button>  
           </div>
         </form>
       </Form>
 
-      <p className="mx-auto mt-3 text-center text-sm text-BLACK_INFO_TEXT">Already have an account?
-        <Link className="text-OAK_COLOR font-semibold" href="/login"> Log in</Link>
-      </p>
+      {!submitting && 
+        <p className="mx-auto mt-3 text-center text-sm text-BLACK_INFO_TEXT">Already have an account?
+            <Link className="text-OAK_COLOR font-semibold" href="/login"> Log in</Link>
+        </p>
+      }
     </div>
   )
 }
