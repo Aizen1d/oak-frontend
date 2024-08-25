@@ -99,7 +99,7 @@ const ManageItem = (data: ItemProps) => {
     form.reset()
     form.clearErrors()
 
-    router.back()
+    router.push('/items')
   }
 
   const onDeleteClick = async (e: React.MouseEvent) => {

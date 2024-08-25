@@ -1,7 +1,7 @@
 "use client"
 
 import { login } from "@/actions/auth"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -36,15 +36,17 @@ const Login = () => {
   const { toast } = useToast()
   const [submitting, setSubmitting] = useState<boolean>(false)
 
-  if (localStorage.getItem("notification")) {
-    const notification = localStorage.getItem("notification") as string
-    toast({
-      title: notification,
-      variant: "success",
-      duration: 3000
-    })
-    localStorage.removeItem("notification")
-  }
+  useEffect(() => {
+    if (localStorage.getItem("notification")) {
+      const notification = localStorage.getItem("notification") as string
+      toast({
+        title: notification,
+        variant: "success",
+        duration: 3000
+      })
+      localStorage.removeItem("notification")
+    }
+  }, [])
   
   const setLogin = useAuthStore(state => state.login)
 

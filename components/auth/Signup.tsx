@@ -82,7 +82,10 @@ const Signup = () => {
     }
 
     // add notif to local storage
-    localStorage.setItem('notification', 'Account created successfully')
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('notification', 'Account created successfully')
+    }
+    
     router.push('login')
   }
 
